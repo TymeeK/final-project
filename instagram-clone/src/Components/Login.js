@@ -4,11 +4,10 @@ import '../Styling/Login.css';
 export default function Login() {
     return (
         <div>
-            <main class='main-container'>
-                <div>
-                    <h1>Instagram</h1>
-                </div>
-                <form>
+            <main className='main-container'>
+                <form className='field-container'>
+                    <h1>Fakestagram</h1>
+
                     <div>
                         <label htmlFor='username'>Username</label>
                         <input type='text' name='username' />
