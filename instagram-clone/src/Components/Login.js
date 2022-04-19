@@ -28,10 +28,13 @@ export default function Login() {
                             name='password'
                         />
                     </div>
-                    <button></button>
                     <div>
-                        <button className='googlesignup'>
-                            Sign up with google
+                        <button className='loginbutton'>Log in</button>
+                    </div>
+                    <div className='line'></div>
+                    <div>
+                        <button className='loginbutton'>
+                            Login with google
                         </button>
                     </div>
                 </form>
