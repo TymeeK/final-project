@@ -9,12 +9,30 @@ export default function Login() {
                     <h1>Fakestagram</h1>
 
                     <div>
-                        <label htmlFor='username'>Username</label>
-                        <input type='text' name='username' />
+                        <label className='fieldlabel' htmlFor='username'>
+                            Username
+                        </label>
+                        <input
+                            className='inputfield'
+                            type='text'
+                            name='username'
+                        />
                     </div>
                     <div>
-                        <label htmlFor='password'>Password</label>
-                        <input type='password' />
+                        <label className='fieldlabel' htmlFor='password'>
+                            Password
+                        </label>
+                        <input
+                            className='inputfield'
+                            type='password'
+                            name='password'
+                        />
+                    </div>
+                    <button></button>
+                    <div>
+                        <button className='googlesignup'>
+                            Sign up with google
+                        </button>
                     </div>
                 </form>
             </main>
