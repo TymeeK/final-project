@@ -1,7 +1,18 @@
 import React from 'react';
 import '../Styling/Login.css';
+import { signIn, getUser, signOutUser } from '../firebase-config';
 
 export default function Login() {
+    getUser();
+    function handleClick(e) {
+        e.preventDefault();
+        signIn();
+    }
+
+    function handleSignOut(e) {
+        e.preventDefault();
+        signOutUser();
+    }
     return (
         <div>
             <main className='main-container'>
@@ -33,8 +44,13 @@ export default function Login() {
                     </div>
                     <div className='line'></div>
                     <div>
-                        <button className='loginbutton'>
+                        <button className='loginbutton' onClick={handleClick}>
                             Login with google
+                        </button>
+                    </div>
+                    <div>
+                        <button className='loginbutton' onClick={handleSignOut}>
+                            Sign out of google
                         </button>
                     </div>
                 </form>
