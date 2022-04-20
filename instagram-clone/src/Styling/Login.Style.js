@@ -1,4 +1,6 @@
-.main-container {
+import styled from 'styled-components';
+
+export const MainContainer = styled.main`
     background-color: #fafafa;
     height: 100vh;
     width: 100vw;
@@ -6,31 +8,32 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-}
+`;
 
-h1 {
+export const H1 = styled.h1`
     margin: 0px;
     padding: 0px;
-}
+`;
 
-.fieldlabel {
+export const FieldLabel = styled.label`
     display: block;
     padding-bottom: 4px;
-}
-.inputfield {
-    margin-bottom: 10px;
-}
+`;
 
-.field-container {
+export const InputField = styled.input`
+    margin-bottom: 10px;
+`;
+
+export const FormFieldContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: white;
     outline: 1px solid lightgrey;
     padding: 20px;
-}
+`;
 
-.loginbutton {
+export const LoginButton = styled.button`
     width: 250px;
     height: 30px;
     font-size: 15px;
@@ -38,14 +41,14 @@ h1 {
     background-color: rgba(0, 149, 246, 0.3);
     margin-bottom: 25px;
     margin-top: 15px;
-}
-.loginbutton:hover {
-    cursor: pointer;
-    background-color: #0095f6;
-}
+    &:hover {
+        cursor: pointer;
+        background-color: #0095f6;
+    }
+`;
 
-.line {
+export const Line = styled.div`
     border-bottom: 1px solid lightgray;
     height: 1px;
     width: 250px;
-}
+`;

@@ -1,5 +1,13 @@
 import React from 'react';
-import '../Styling/Login.css';
+import {
+    MainContainer,
+    H1,
+    FieldLabel,
+    InputField,
+    FormFieldContainer,
+    LoginButton,
+    Line,
+} from '../Styling/Login.Style';
 import { signIn, getUser, signOutUser } from '../firebase-config';
 
 export default function Login() {
@@ -15,46 +23,34 @@ export default function Login() {
     }
     return (
         <div>
-            <main className='main-container'>
-                <form className='field-container'>
-                    <h1>Fakestagram</h1>
+            <MainContainer>
+                <FormFieldContainer className='field-container'>
+                    <H1>Fakestagram</H1>
 
                     <div>
-                        <label className='fieldlabel' htmlFor='username'>
-                            Username
-                        </label>
-                        <input
-                            className='inputfield'
-                            type='text'
-                            name='username'
-                        />
+                        <FieldLabel htmlFor='username'>Username</FieldLabel>
+                        <InputField type='text' name='username' />
                     </div>
                     <div>
-                        <label className='fieldlabel' htmlFor='password'>
-                            Password
-                        </label>
-                        <input
-                            className='inputfield'
-                            type='password'
-                            name='password'
-                        />
+                        <FieldLabel htmlFor='password'>Password</FieldLabel>
+                        <InputField type='password' name='password' />
                     </div>
                     <div>
-                        <button className='loginbutton'>Log in</button>
+                        <LoginButton>Log in</LoginButton>
                     </div>
-                    <div className='line'></div>
+                    <Line></Line>
                     <div>
-                        <button className='loginbutton' onClick={handleClick}>
+                        <LoginButton onClick={handleClick}>
                             Login with google
-                        </button>
+                        </LoginButton>
                     </div>
                     <div>
-                        <button className='loginbutton' onClick={handleSignOut}>
+                        <LoginButton onClick={handleSignOut}>
                             Sign out of google
-                        </button>
+                        </LoginButton>
                     </div>
-                </form>
-            </main>
+                </FormFieldContainer>
+            </MainContainer>
         </div>
     );
 }
