@@ -21,6 +21,7 @@ export default function Login() {
         e.preventDefault();
         signOutUser();
     }
+
     return (
         <div>
             <MainContainer>
