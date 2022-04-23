@@ -39,7 +39,7 @@ export const LoginButton = styled.button`
     font-size: 15px;
     border-radius: 5px;
     background-color: rgba(0, 149, 246, 0.3);
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     margin-top: 15px;
     &:hover {
         cursor: pointer;

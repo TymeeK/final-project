@@ -1,27 +1,26 @@
 import React from 'react';
-import { MainContainer, H1 } from '../Styling/Login.Style';
+import {
+    MainContainer,
+    H1,
+    FieldLabel,
+    InputField,
+    LoginButton,
+} from '../Styling/Login.Style';
+import FormField from './FormField';
 
 export default function Register() {
     return (
         <div>
             <MainContainer>
-                <form action=''>
-                    <H1>Fakestagram</H1>
+                <FormField register={true}>
                     <div>
-                        <label htmlFor='email'>Email</label>
-                        <input type='text' name='email' />
-                    </div>
-                    <div>
-                        <label htmlFor='password'>Password</label>
-                        <input type='text' name='password' />
-                    </div>
-                    <div>
-                        <label htmlFor='confirmpassword'>
+                        <FieldLabel htmlFor='confirmpassword'>
                             Confirm Password
-                        </label>
-                        <input type='text' name='confirmpassword' />
+                        </FieldLabel>
+                        <InputField type='text' name='confirmpassword' />
                     </div>
-                </form>
+                    <LoginButton>Sign up</LoginButton>
+                </FormField>
             </MainContainer>
         </div>
     );
