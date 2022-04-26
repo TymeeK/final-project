@@ -6,6 +6,7 @@ import {
     onAuthStateChanged,
     signOut,
     createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -27,6 +28,7 @@ export async function signInWithGoogle() {
 
 export async function signOutUser() {
     signOut(getAuth());
+    console.log('Logged out!');
 }
 
 export function getUser() {
@@ -41,6 +43,8 @@ export function getUser() {
     });
 }
 
+//Sign in user with email and password
+
 export async function createUser(email, password) {
     const auth = getAuth();
     const credentials = await createUserWithEmailAndPassword(
@@ -49,4 +53,10 @@ export async function createUser(email, password) {
         password
     );
     console.log(credentials);
+}
+
+export async function signInUser(email, password) {
+    const auth = getAuth();
+    const user = await signInWithEmailAndPassword(auth, email, password);
+    console.log(user);
 }

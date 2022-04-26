@@ -14,10 +14,10 @@ export default function FormField(props) {
 
             <div>
                 <FieldLabel type='email' htmlFor='username'>
-                    Username
+                    Email
                 </FieldLabel>
                 <InputField
-                    type='text'
+                    type='email'
                     name='username'
                     onChange={props.handleChange}
                 />
