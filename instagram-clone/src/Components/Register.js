@@ -7,6 +7,7 @@ import {
     LoginButton,
 } from '../Styling/Login.Style';
 import FormField from './FormField';
+import { createUser } from '../firebase-config';
 
 export default function Register() {
     const [email, setEmail] = useState();
@@ -27,6 +28,7 @@ export default function Register() {
 
     function handleSignUp(event) {
         event.preventDefault();
+        createUser(email, password);
     }
 
     return (
