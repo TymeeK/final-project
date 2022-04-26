@@ -9,6 +9,13 @@ import {
 import FormField from './FormField';
 
 export default function Register() {
+    function handleChange(event) {
+        event.preventDefault();
+    }
+    function handleSignUp(event) {
+        event.preventDefault();
+    }
+
     return (
         <div>
             <MainContainer>
@@ -17,9 +24,9 @@ export default function Register() {
                         <FieldLabel htmlFor='confirmpassword'>
                             Confirm Password
                         </FieldLabel>
-                        <InputField type='text' name='confirmpassword' />
+                        <InputField type='password' name='confirmpassword' />
                     </div>
-                    <LoginButton>Sign up</LoginButton>
+                    <LoginButton onClick={handleSignUp}>Sign up</LoginButton>
                 </FormField>
             </MainContainer>
         </div>

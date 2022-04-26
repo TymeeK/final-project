@@ -5,6 +5,7 @@ import {
     GoogleAuthProvider,
     onAuthStateChanged,
     signOut,
+    createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -38,4 +39,14 @@ export function getUser() {
             console.log('Logged out');
         }
     });
+}
+
+export async function createUser(email, password) {
+    const auth = getAuth();
+    const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+    );
+    console.log(credentials);
 }
