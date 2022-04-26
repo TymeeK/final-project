@@ -1,13 +1,13 @@
 import React from 'react';
 import { MainContainer, LoginButton } from '../Styling/Login.Style';
 import FormField from './FormField';
-import { signIn, getUser, signOutUser } from '../firebase-config';
+import { getUser, signOutUser, signInWithGoogle } from '../firebase-config';
 
 export default function Login() {
     getUser();
     function handleClick(e) {
         e.preventDefault();
-        signIn();
+        signInWithGoogle();
     }
 
     function handleSignOut(e) {

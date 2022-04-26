@@ -8,11 +8,15 @@ import {
 } from '../Styling/Login.Style';
 import FormField from './FormField';
 import { createUser } from '../firebase-config';
+import { RequirementLabel } from '../Styling/Register.Style';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
+    const [showRequirements, setShowRequirements] = useState(false);
+    const navigate = useNavigate();
 
     function handleChange(event) {
         event.preventDefault();
@@ -28,7 +32,11 @@ export default function Register() {
 
     function handleSignUp(event) {
         event.preventDefault();
-        createUser(email, password);
+        if (password !== confirmPassword) {
+            setShowRequirements(true);
+        } else {
+            createUser(email, password);
+        }
     }
 
     return (
@@ -44,6 +52,13 @@ export default function Register() {
                             name='confirmpassword'
                             onChange={handleChange}
                         />
+                        {showRequirements ? (
+                            <RequirementLabel>
+                                Passwords do not match
+                            </RequirementLabel>
+                        ) : (
+                            ''
+                        )}
                     </div>
                     <LoginButton onClick={handleSignUp}>Sign up</LoginButton>
                 </FormField>

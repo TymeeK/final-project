@@ -7,7 +7,6 @@ import {
     LoginButton,
     Line,
 } from '../Styling/Login.Style';
-
 export default function FormField(props) {
     return (
         <FormFieldContainer className='field-container'>
@@ -24,7 +23,9 @@ export default function FormField(props) {
                 />
             </div>
             <div>
-                <FieldLabel htmlFor='password'>Password</FieldLabel>
+                <FieldLabel htmlFor='password'>
+                    Password (6 chars or more)
+                </FieldLabel>
                 <InputField
                     type='password'
                     name='password'
