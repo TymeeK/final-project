@@ -14,12 +14,22 @@ export default function FormField(props) {
             <H1>Fakestagram</H1>
 
             <div>
-                <FieldLabel htmlFor='username'>Username</FieldLabel>
-                <InputField type='text' name='username' />
+                <FieldLabel type='email' htmlFor='username'>
+                    Username
+                </FieldLabel>
+                <InputField
+                    type='text'
+                    name='username'
+                    onChange={props.handleChange}
+                />
             </div>
             <div>
                 <FieldLabel htmlFor='password'>Password</FieldLabel>
-                <InputField type='password' name='password' />
+                <InputField
+                    type='password'
+                    name='password'
+                    onChange={props.handleChange}
+                />
             </div>
             {props.register ? (
                 <>
