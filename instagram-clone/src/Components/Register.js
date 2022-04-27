@@ -42,7 +42,6 @@ export default function Register() {
         } else {
             navigate('/feed');
             createUser(email, password);
-            navigate();
             signInUser(email, password);
         }
     }
