@@ -7,12 +7,7 @@ import {
     LoginButton,
 } from '../../Styling/Login.Style';
 import FormField from './FormField';
-import {
-    createUser,
-    getUser,
-    signInUser,
-    signOutUser,
-} from '../../firebase-config';
+import { createUser, addUserData } from '../../firebase-config';
 import { RequirementLabel } from '../../Styling/Register.Style';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,6 +37,7 @@ export default function Register() {
         } else {
             navigate('/profile');
             createUser(email, password);
+            addUserData(email);
         }
     }
 

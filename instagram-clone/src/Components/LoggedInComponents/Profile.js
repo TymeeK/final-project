@@ -11,7 +11,6 @@ export default function Profile() {
     useEffect(() => {
         function getUser() {
             const auth = getAuth();
-            const user = auth.currentUser;
             onAuthStateChanged(auth, user => {
                 if (user) {
                     const userId = user.email;
@@ -25,9 +24,12 @@ export default function Profile() {
     }, []);
 
     return (
-        <NavBar>
-            <H1>Fakestagram</H1>
-            <H1>{user}</H1>
-        </NavBar>
+        <>
+            <NavBar>
+                <H1>Fakestagram</H1>
+                <H1>{user}</H1>
+            </NavBar>
+            <div>test</div>
+        </>
     );
 }
