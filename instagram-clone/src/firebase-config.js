@@ -39,12 +39,12 @@ export async function getUser() {
     const unsubscribe = onAuthStateChanged(auth, user => {
         if (user) {
             const userId = user.email;
+            console.log(userId);
             return auth.currentUser;
         } else {
             console.log('Logged out');
         }
     });
-    console.log(unsubscribe());
     unsubscribe();
 }
 

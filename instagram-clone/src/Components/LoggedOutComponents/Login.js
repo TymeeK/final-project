@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MainContainer, LoginButton } from '../../Styling/Login.Style';
 import FormField from './FormField';
-import { getUser, signOutUser, signInWithGoogle } from '../../firebase-config';
+import {
+    getUser,
+    signOutUser,
+    signInWithGoogle,
+    signInUser,
+} from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const navigate = useNavigate();
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     getUser();
+
+    function handleUserInput(event) {
+        event.preventDefault();
+
+        event.target.name === 'username'
+            ? setEmail(event.target.value)
+            : setPassword(event.target.value);
+    }
+
     function handleClick(event) {
         event.preventDefault();
         signInWithGoogle();
@@ -21,13 +37,21 @@ export default function Login() {
         event.preventDefault();
         navigate('/register');
     }
+    //username = tymee@gmail.com
+    //password = asdf1234
+
+    function handleSignIn(event) {
+        event.preventDefault();
+        signInUser(email, password);
+        navigate('/profile');
+    }
 
     return (
         <div>
             <MainContainer>
-                <FormField register={false}>
+                <FormField register={false} handleChange={handleUserInput}>
                     <div>
-                        <LoginButton>Login</LoginButton>
+                        <LoginButton onClick={handleSignIn}>Login</LoginButton>
                     </div>
                     <div>
                         <LoginButton onClick={handleRegister}>
