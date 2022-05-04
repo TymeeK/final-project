@@ -40,9 +40,8 @@ export default function Register() {
         if (password !== confirmPassword) {
             setShowRequirements(true);
         } else {
-            navigate('/feed');
+            navigate('/profile');
             createUser(email, password);
-            signInUser(email, password);
         }
     }
 

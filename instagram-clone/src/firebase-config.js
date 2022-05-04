@@ -28,20 +28,22 @@ export async function signInWithGoogle() {
 
 export async function signOutUser() {
     signOut(getAuth());
-    console.log('Logged out!');
 }
 
-export function getUser() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            const userId = user.email;
-            console.log(userId);
-        } else {
-            console.log('Logged out');
-        }
-    });
-}
+// export async function getUser() {
+//     const auth = getAuth();
+//     const user = auth.currentUser;
+//     const unsubscribe = onAuthStateChanged(auth, user => {
+//         if (user) {
+//             const userId = user.email;
+//             return auth.currentUser;
+//         } else {
+//             console.log('Logged out');
+//         }
+//     });
+//     console.log(unsubscribe());
+//     unsubscribe();
+// }
 
 //Sign in user with email and password
 
