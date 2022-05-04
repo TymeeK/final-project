@@ -1,7 +1,7 @@
 import React from 'react';
-import { MainContainer, LoginButton } from '../Styling/Login.Style';
+import { MainContainer, LoginButton } from '../../Styling/Login.Style';
 import FormField from './FormField';
-import { getUser, signOutUser, signInWithGoogle } from '../firebase-config';
+import { getUser, signOutUser, signInWithGoogle } from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {

@@ -3,6 +3,7 @@ import { H1 } from '../../Styling/Login.Style';
 import { HeadingDiv, NavBar } from '../../Styling/Feed.Style';
 
 export default function Feed() {
+    //Show profile page
     return (
         <>
             <NavBar>

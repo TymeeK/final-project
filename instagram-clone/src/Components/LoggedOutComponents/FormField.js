@@ -6,7 +6,7 @@ import {
     H1,
     LoginButton,
     Line,
-} from '../Styling/Login.Style';
+} from '../../Styling/Login.Style';
 export default function FormField(props) {
     return (
         <FormFieldContainer className='field-container'>
