@@ -8,6 +8,7 @@ import {
     signInUser,
 } from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -42,8 +43,16 @@ export default function Login() {
 
     function handleSignIn(event) {
         event.preventDefault();
+        if (!email || !password) {
+            return;
+        }
         signInUser(email, password);
-        navigate('/profile');
+        const auth = getAuth();
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                navigate('/profile');
+            }
+        });
     }
 
     return (
@@ -66,7 +75,7 @@ export default function Login() {
 
                     <div>
                         <LoginButton onClick={handleSignOut}>
-                            Sign out of google
+                            Sign out
                         </LoginButton>
                     </div>
                 </FormField>
