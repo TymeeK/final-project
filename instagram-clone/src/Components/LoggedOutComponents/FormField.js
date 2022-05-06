@@ -23,15 +23,25 @@ export default function FormField(props) {
                 />
             </div>
             <div>
-                <FieldLabel htmlFor='password'>
-                    Password (6 chars or more)
-                </FieldLabel>
+                {props.register ? (
+                    <FieldLabel htmlFor='password'>
+                        Password (6 chars or more)
+                    </FieldLabel>
+                ) : (
+                    <FieldLabel htmlFor='password'>Password</FieldLabel>
+                )}
+
                 <InputField
                     type='password'
                     name='password'
                     onChange={props.handleChange}
                 />
             </div>
+            {props.wrongInput ? (
+                <label>Incorrect username or password</label>
+            ) : (
+                ''
+            )}
             {props.register ? (
                 <>
                     <div>{props.children}</div>

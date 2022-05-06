@@ -63,7 +63,7 @@ export async function createUser(email, password) {
 export async function signInUser(email, password) {
     const auth = getAuth();
     const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
+    console.log(user.user.uid);
 }
 
 //Database
@@ -73,6 +73,7 @@ export async function addUserData(email) {
         const docRef = await addDoc(collection(db, 'users'), {
             email: email,
             posts: [],
+            // userId:
         });
         console.log('Document written with ID: ', docRef.id);
     } catch (error) {

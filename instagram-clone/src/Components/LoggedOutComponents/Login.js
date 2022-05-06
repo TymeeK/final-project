@@ -9,12 +9,13 @@ import {
 } from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
 
 export default function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    getUser();
+    const [wrongInput, setWrongInput] = useState(false);
 
     function handleUserInput(event) {
         event.preventDefault();
@@ -47,10 +48,13 @@ export default function Login() {
             return;
         }
         signInUser(email, password);
+
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             if (user) {
                 navigate('/profile');
+            } else {
+                setWrongInput(true);
             }
         });
     }
@@ -58,7 +62,11 @@ export default function Login() {
     return (
         <div>
             <MainContainer>
-                <FormField register={false} handleChange={handleUserInput}>
+                <FormField
+                    register={false}
+                    handleChange={handleUserInput}
+                    wrongInput={wrongInput}
+                >
                     <div>
                         <LoginButton onClick={handleSignIn}>Login</LoginButton>
                     </div>
@@ -67,11 +75,11 @@ export default function Login() {
                             Register
                         </LoginButton>
                     </div>
-                    <div>
+                    {/* <div>
                         <LoginButton onClick={handleClick}>
                             Login with google
                         </LoginButton>
-                    </div>
+                    </div> */}
 
                     <div>
                         <LoginButton onClick={handleSignOut}>
