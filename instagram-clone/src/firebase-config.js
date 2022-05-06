@@ -26,22 +26,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 export const storage = getStorage(app);
 
-export async function listAllFiles() {
-    const listRef = ref(storage, 'images');
-
-    const list = await listAll(listRef);
-    console.log(list.items[0]._location);
-    // listAll(listRef)
-    //     .then(res => {
-    //         res.prefixes.forEach(folderRef => {
-    //             console.log(folderRef);
-    //         });
-    //     })
-    //     .catch(error => {
-    //         console.error('An error occurred: ' + error);
-    //     });
-}
-
 export async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(getAuth(), provider);
