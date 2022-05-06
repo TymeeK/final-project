@@ -10,6 +10,7 @@ import {
 } from 'firebase/auth';
 
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getStorage, ref, listAll } from 'firebase/storage';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,6 +24,23 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+export const storage = getStorage(app);
+
+export async function listAllFiles() {
+    const listRef = ref(storage, 'images');
+
+    const list = await listAll(listRef);
+    console.log(list.items[0]._location);
+    // listAll(listRef)
+    //     .then(res => {
+    //         res.prefixes.forEach(folderRef => {
+    //             console.log(folderRef);
+    //         });
+    //     })
+    //     .catch(error => {
+    //         console.error('An error occurred: ' + error);
+    //     });
+}
 
 export async function signInWithGoogle() {
     const provider = new GoogleAuthProvider();
@@ -66,7 +84,7 @@ export async function signInUser(email, password) {
     console.log(user.user.uid);
 }
 
-//Database
+//Firestore functions
 
 export async function addUserData(email) {
     try {
