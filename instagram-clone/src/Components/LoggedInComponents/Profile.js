@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavBar } from '../../Styling/Feed.Style';
 import { H1 } from '../../Styling/Login.Style';
-import { ProfileDiv } from '../../Styling/Profile.Style';
+import { ProfileDiv, ProfilePic } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
 import { storage } from '../../firebase-config';
 
 export default function Profile() {
@@ -24,7 +24,7 @@ export default function Profile() {
             });
         }
 
-        async function listAllFiles() {
+        async function getDefaultPicture() {
             const listRef = ref(storage, 'images');
 
             const list = await listAll(listRef);
@@ -37,7 +37,7 @@ export default function Profile() {
             });
         }
         getUser();
-        listAllFiles();
+        getDefaultPicture();
     }, []);
 
     return (
@@ -47,8 +47,11 @@ export default function Profile() {
                 <H1>{user}</H1>
             </NavBar>
             <ProfileDiv>
-                test
-                <img src={imagePath} alt='Placeholder' />
+                <ProfilePic src={imagePath} alt='Placeholder' />
+                <h3>{user}</h3>
+                <label>Posts</label>
+                <label>Followers</label>
+                <label>Following</label>
             </ProfileDiv>
         </>
     );
