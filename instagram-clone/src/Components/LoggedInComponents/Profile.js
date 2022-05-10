@@ -10,10 +10,15 @@ import {
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
 import { storage, db } from '../../firebase-config';
+import { getDoc, doc } from 'firebase/firestore';
 
 export default function Profile() {
     const [user, setUser] = useState();
+    const [followers, setFollowers] = useState();
+    const [following, setFollowing] = useState();
     const [imagePath, setImagePath] = useState();
+    const [postNumber, setPostNumber] = useState();
+    const [showFollowers, setShowFollowers] = useState(false);
 
     //Get user from firebase authentication;
     useEffect(() => {
@@ -31,10 +36,8 @@ export default function Profile() {
 
         async function getDefaultPicture() {
             const listRef = ref(storage, 'default');
-
             const list = await listAll(listRef);
             const path = list.items[0]._location.path_;
-
             const imageRef = ref(storage, path);
             getDownloadURL(imageRef).then(url => {
                 console.log(url);
@@ -42,12 +45,28 @@ export default function Profile() {
             });
         }
 
-        // function getFollowers() {
-        //     const docRef = doc(db, '');
-        // }
         getUser();
         getDefaultPicture();
     }, []);
+
+    useEffect(() => {
+        async function getFollowers() {
+            const docRef = doc(db, 'users', user);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                console.log('Document data:', docSnap.data());
+                setFollowers(docSnap.data().followers);
+                setFollowing(docSnap.data().following);
+                setPostNumber(docSnap.data().posts.length);
+                setShowFollowers(true);
+            }
+        }
+
+        if (!user) {
+            return;
+        }
+        getFollowers();
+    }, [user]);
 
     return (
         <>
@@ -59,11 +78,19 @@ export default function Profile() {
                 <div>
                     <ProfilePic src={imagePath} alt='Placeholder' />
                     <ProfileName>{user}</ProfileName>
-                    <div>
-                        <ProfileLabel>Posts</ProfileLabel>
-                        <ProfileLabel> Followers</ProfileLabel>
-                        <ProfileLabel> Following</ProfileLabel>
-                    </div>
+                    {showFollowers ? (
+                        <div>
+                            <ProfileLabel> {postNumber} Posts</ProfileLabel>
+                            <ProfileLabel> {followers} Followers</ProfileLabel>
+                            <ProfileLabel> {following} Following</ProfileLabel>
+                        </div>
+                    ) : (
+                        <div>
+                            <ProfileLabel>Posts</ProfileLabel>
+                            <ProfileLabel> Followers</ProfileLabel>
+                            <ProfileLabel> Following</ProfileLabel>
+                        </div>
+                    )}
                 </div>
             </ProfileDiv>
         </>

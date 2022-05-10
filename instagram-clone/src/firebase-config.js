@@ -9,7 +9,13 @@ import {
     signInWithEmailAndPassword,
 } from 'firebase/auth';
 
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    setDoc,
+    doc,
+} from 'firebase/firestore';
 import { getStorage, ref, listAll } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -72,7 +78,8 @@ export async function signInUser(email, password) {
 
 export async function addUserData(email) {
     try {
-        const docRef = await addDoc(collection(db, 'users'), {
+        const docRef = collection(db, 'users');
+        await setDoc(doc(docRef, email), {
             email: email,
             posts: [],
             followers: 0,
