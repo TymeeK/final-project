@@ -12,4 +12,13 @@ export const ProfilePic = styled.img`
     border-radius: 50%;
     max-width: 100px;
     max-height: 100px;
+    margin-right: 20px;
+`;
+
+export const ProfileName = styled.h3`
+    display: block;
+`;
+
+export const ProfileLabel = styled.label`
+    /* display: block; */
 `;

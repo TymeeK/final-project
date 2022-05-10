@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NavBar } from '../../Styling/Feed.Style';
 import { H1 } from '../../Styling/Login.Style';
-import { ProfileDiv, ProfilePic } from '../../Styling/Profile.Style';
+import {
+    ProfileDiv,
+    ProfilePic,
+    ProfileName,
+    ProfileLabel,
+} from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
-import { storage } from '../../firebase-config';
+import { storage, db } from '../../firebase-config';
 
 export default function Profile() {
     const [user, setUser] = useState();
@@ -25,7 +30,7 @@ export default function Profile() {
         }
 
         async function getDefaultPicture() {
-            const listRef = ref(storage, 'images');
+            const listRef = ref(storage, 'default');
 
             const list = await listAll(listRef);
             const path = list.items[0]._location.path_;
@@ -36,6 +41,10 @@ export default function Profile() {
                 setImagePath(url);
             });
         }
+
+        // function getFollowers() {
+        //     const docRef = doc(db, '');
+        // }
         getUser();
         getDefaultPicture();
     }, []);
@@ -47,11 +56,15 @@ export default function Profile() {
                 <H1>{user}</H1>
             </NavBar>
             <ProfileDiv>
-                <ProfilePic src={imagePath} alt='Placeholder' />
-                <h3>{user}</h3>
-                <label>Posts</label>
-                <label>Followers</label>
-                <label>Following</label>
+                <div>
+                    <ProfilePic src={imagePath} alt='Placeholder' />
+                    <ProfileName>{user}</ProfileName>
+                    <div>
+                        <ProfileLabel>Posts</ProfileLabel>
+                        <ProfileLabel> Followers</ProfileLabel>
+                        <ProfileLabel> Following</ProfileLabel>
+                    </div>
+                </div>
             </ProfileDiv>
         </>
     );

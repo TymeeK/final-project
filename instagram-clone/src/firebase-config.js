@@ -23,7 +23,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 export async function signInWithGoogle() {
@@ -75,7 +75,8 @@ export async function addUserData(email) {
         const docRef = await addDoc(collection(db, 'users'), {
             email: email,
             posts: [],
-            // userId:
+            followers: 0,
+            following: 0,
         });
         console.log('Document written with ID: ', docRef.id);
     } catch (error) {
