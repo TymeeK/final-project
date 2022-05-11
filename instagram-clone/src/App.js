@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Components/LoggedOutComponents/Login';
 import Register from './Components/LoggedOutComponents/Register';
 import Feed from './Components/LoggedInComponents/Feed';
 import Profile from './Components/LoggedInComponents/Profile';
-import { useSelector, useDispatch } from 'react-redux';
-import { signin } from './Redux/LoginSlice';
+import { useSelector } from 'react-redux';
 
 function App() {
     const login = useSelector(state => state.login.value);
@@ -14,7 +13,10 @@ function App() {
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/register' element={<Register />} />
-                <Route path='/feed' element={<Feed />} />
+                <Route
+                    path='/feed'
+                    element={login ? <Feed /> : <Navigate to='/' replace />}
+                />
                 <Route
                     path='/profile'
                     element={login ? <Profile /> : <Navigate to='/' replace />}

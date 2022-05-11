@@ -19,7 +19,6 @@ export default function Login() {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [wrongInput, setWrongInput] = useState(false);
-    const login = useSelector(state => state.login.value);
     const dispatch = useDispatch();
 
     function handleUserInput(event) {
