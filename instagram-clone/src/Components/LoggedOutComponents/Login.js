@@ -11,12 +11,16 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { signin } from '../../Redux/LoginSlice';
 
 export default function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [wrongInput, setWrongInput] = useState(false);
+    const login = useSelector(state => state.login.value);
+    const dispatch = useDispatch();
 
     function handleUserInput(event) {
         event.preventDefault();
@@ -53,6 +57,7 @@ export default function Login() {
         const auth = getAuth();
         onAuthStateChanged(auth, user => {
             if (user) {
+                dispatch(signin());
                 navigate('/profile');
             } else {
                 setWrongInput(true);
@@ -76,11 +81,6 @@ export default function Login() {
                             Register
                         </LoginButton>
                     </div>
-                    {/* <div>
-                        <LoginButton onClick={handleClick}>
-                            Login with google
-                        </LoginButton>
-                    </div> */}
 
                     <div>
                         <LoginButton onClick={handleSignOut}>
