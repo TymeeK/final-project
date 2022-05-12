@@ -8,7 +8,7 @@ import {
     ProfileLabel,
 } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { ref, listAll, getDownloadURL, uploadBytes } from 'firebase/storage';
 import { storage, db } from '../../firebase-config';
 import { getDoc, doc } from 'firebase/firestore';
 
@@ -19,6 +19,7 @@ export default function Profile() {
     const [imagePath, setImagePath] = useState();
     const [postNumber, setPostNumber] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
+    const [image, setImage] = useState();
 
     //Get user from firebase authentication;
     useEffect(() => {
@@ -54,7 +55,6 @@ export default function Profile() {
             const docRef = doc(db, 'users', user);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                console.log('Document data:', docSnap.data());
                 setFollowers(docSnap.data().followers);
                 setFollowing(docSnap.data().following);
                 setPostNumber(docSnap.data().posts.length);
@@ -68,6 +68,22 @@ export default function Profile() {
         getFollowers();
     }, [user]);
 
+    useEffect(() => {
+        const upload = () => {
+            if (!image) {
+                return;
+            }
+            const profileRef = ref(
+                storage,
+                `/${user}/profilepicture/${image.name}`
+            );
+            uploadBytes(profileRef, image).then(snapshot => {
+                console.log('Uploaded a blob or file!');
+            });
+        };
+        upload();
+    }, [image]);
+
     return (
         <>
             <NavBar>
@@ -77,6 +93,10 @@ export default function Profile() {
             <ProfileDiv>
                 <div>
                     <ProfilePic src={imagePath} alt='Placeholder' />
+                    <input
+                        type='file'
+                        onChange={e => setImage(e.target.files[0])}
+                    />
                     <ProfileName>{user}</ProfileName>
                     {showFollowers ? (
                         <div>

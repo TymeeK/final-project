@@ -13,14 +13,16 @@ function App() {
             <Routes>
                 <Route path='/' element={<Login />} />
                 <Route path='/register' element={<Register />} />
-                <Route
+                <Route path='/feed' element={<Feed />} />
+                <Route path='/profile' element={<Profile />} />
+                {/* <Route
                     path='/feed'
                     element={login ? <Feed /> : <Navigate to='/' replace />}
                 />
                 <Route
                     path='/profile'
                     element={login ? <Profile /> : <Navigate to='/' replace />}
-                />
+                /> */}
             </Routes>
         </BrowserRouter>
     );
