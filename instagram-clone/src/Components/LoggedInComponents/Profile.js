@@ -21,6 +21,27 @@ export default function Profile() {
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
 
+    async function getProfilePicture() {
+        const listRef = ref(storage, `/${user}/profilepicture`);
+        const list = await listAll(listRef);
+        if (list.items.length === 0) {
+            return false;
+        } else {
+            const path = list.items[0]._location.path_;
+            return path;
+        }
+    }
+
+    async function setProfilePicture() {
+        const path = await getProfilePicture();
+        if (path) {
+            const imageRef = ref(storage, path);
+            getDownloadURL(imageRef).then(url => {
+                setImagePath(url);
+            });
+        }
+    }
+
     //Get user from firebase authentication;
     useEffect(() => {
         function getUser() {
@@ -36,6 +57,10 @@ export default function Profile() {
         }
 
         async function getDefaultPicture() {
+            const imageExists = await getProfilePicture();
+            if (imageExists) {
+                return;
+            }
             const listRef = ref(storage, 'default');
             const list = await listAll(listRef);
             const path = list.items[0]._location.path_;
@@ -47,6 +72,8 @@ export default function Profile() {
         }
 
         getUser();
+        //if the user has a profilepicture don't run defaultpicture
+
         getDefaultPicture();
     }, []);
 
@@ -61,23 +88,12 @@ export default function Profile() {
                 setShowFollowers(true);
             }
         }
-        async function getProfilePicture() {
-            const listRef = ref(storage, `/${user}/profilepicture`);
-            const list = await listAll(listRef);
-            const path = list.items[0]._location.path_;
-            if (path) {
-                const imageRef = ref(storage, path);
-                getDownloadURL(imageRef).then(url => {
-                    setImagePath(url);
-                });
-            }
-        }
 
         if (!user) {
             return;
         }
         getFollowers();
-        getProfilePicture();
+        setProfilePicture();
     }, [user]);
 
     useEffect(() => {
@@ -85,12 +101,14 @@ export default function Profile() {
             if (!image) {
                 return;
             }
+
             const profileRef = ref(
                 storage,
                 `/${user}/profilepicture/${image.name}`
             );
             uploadBytes(profileRef, image).then(snapshot => {
                 console.log('Uploaded a blob or file!');
+                // getProfilePicture();
             });
         };
         uploadNewProfilePicture();
@@ -107,7 +125,7 @@ export default function Profile() {
                     <ProfilePic src={imagePath} alt='Placeholder' />
                     <input
                         type='file'
-                        onChange={event => event.target.files[0]}
+                        onChange={event => setImage(event.target.files[0])}
                     />
                     <ProfileName>{user}</ProfileName>
                     {showFollowers ? (
