@@ -61,15 +61,27 @@ export default function Profile() {
                 setShowFollowers(true);
             }
         }
+        async function getProfilePicture() {
+            const listRef = ref(storage, `/${user}/profilepicture`);
+            const list = await listAll(listRef);
+            const path = list.items[0]._location.path_;
+            if (path) {
+                const imageRef = ref(storage, path);
+                getDownloadURL(imageRef).then(url => {
+                    setImagePath(url);
+                });
+            }
+        }
 
         if (!user) {
             return;
         }
         getFollowers();
+        getProfilePicture();
     }, [user]);
 
     useEffect(() => {
-        const upload = () => {
+        const uploadNewProfilePicture = () => {
             if (!image) {
                 return;
             }
@@ -81,7 +93,7 @@ export default function Profile() {
                 console.log('Uploaded a blob or file!');
             });
         };
-        upload();
+        uploadNewProfilePicture();
     }, [image]);
 
     return (
@@ -95,7 +107,7 @@ export default function Profile() {
                     <ProfilePic src={imagePath} alt='Placeholder' />
                     <input
                         type='file'
-                        onChange={e => setImage(e.target.files[0])}
+                        onChange={event => event.target.files[0]}
                     />
                     <ProfileName>{user}</ProfileName>
                     {showFollowers ? (
