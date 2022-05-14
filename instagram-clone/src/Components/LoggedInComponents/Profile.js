@@ -24,7 +24,8 @@ export default function Profile() {
     async function getProfilePicture() {
         const listRef = ref(storage, `/${user}/profilepicture`);
         const list = await listAll(listRef);
-        if (list.items.length === 0) {
+        console.log(list);
+        if (list.items.length == 0) {
             return false;
         } else {
             const path = list.items[0]._location.path_;
@@ -59,6 +60,7 @@ export default function Profile() {
         async function getDefaultPicture() {
             const imageExists = await getProfilePicture();
             if (imageExists) {
+                setProfilePicture();
                 return;
             }
             const listRef = ref(storage, 'default');
@@ -72,9 +74,7 @@ export default function Profile() {
         }
 
         getUser();
-        //if the user has a profilepicture don't run defaultpicture
-
-        getDefaultPicture();
+        // getDefaultPicture();
     }, []);
 
     useEffect(() => {
@@ -108,7 +108,7 @@ export default function Profile() {
             );
             uploadBytes(profileRef, image).then(snapshot => {
                 console.log('Uploaded a blob or file!');
-                // getProfilePicture();
+                setProfilePicture();
             });
         };
         uploadNewProfilePicture();
