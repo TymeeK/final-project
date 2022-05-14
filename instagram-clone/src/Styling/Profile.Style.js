@@ -19,6 +19,8 @@ export const ProfileName = styled.h3`
     display: block;
 `;
 
-export const ProfileLabel = styled.label`
-    /* display: block; */
+export const ProfileUpload = styled.button`
+    &:hover {
+        cursor: pointer;
+    }
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MainContainer, LoginButton } from '../../Styling/Login.Style';
 import FormField from './FormField';
 import {
@@ -10,7 +10,6 @@ import {
 } from '../../firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { signin } from '../../Redux/LoginSlice';
 
@@ -64,6 +63,9 @@ export default function Login() {
         });
     }
 
+    useEffect(() => {
+        signOutUser();
+    }, []);
     return (
         <div>
             <MainContainer>

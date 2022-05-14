@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavBar } from '../../Styling/Feed.Style';
 import { H1 } from '../../Styling/Login.Style';
 import {
     ProfileDiv,
     ProfilePic,
     ProfileName,
-    ProfileLabel,
+    ProfileUpload,
 } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { ref, listAll, getDownloadURL, uploadBytes } from 'firebase/storage';
@@ -20,11 +20,11 @@ export default function Profile() {
     const [postNumber, setPostNumber] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
+    const hiddenFileInput = useRef(null);
 
     async function getProfilePicture() {
         const listRef = ref(storage, `/${user}/profilepicture`);
         const list = await listAll(listRef);
-        console.log(list);
         if (list.items.length == 0) {
             return false;
         } else {
@@ -114,6 +114,10 @@ export default function Profile() {
         uploadNewProfilePicture();
     }, [image]);
 
+    function handleClick() {
+        hiddenFileInput.current.click();
+    }
+
     return (
         <>
             <NavBar>
@@ -123,22 +127,27 @@ export default function Profile() {
             <ProfileDiv>
                 <div>
                     <ProfilePic src={imagePath} alt='Placeholder' />
+                    <ProfileUpload onClick={handleClick}>
+                        Upload new profile picture
+                    </ProfileUpload>
                     <input
                         type='file'
                         onChange={event => setImage(event.target.files[0])}
+                        style={{ display: 'none' }}
+                        ref={hiddenFileInput}
                     />
                     <ProfileName>{user}</ProfileName>
                     {showFollowers ? (
                         <div>
-                            <ProfileLabel> {postNumber} Posts</ProfileLabel>
-                            <ProfileLabel> {followers} Followers</ProfileLabel>
-                            <ProfileLabel> {following} Following</ProfileLabel>
+                            <label> {postNumber} Posts</label>
+                            <label> {followers} Followers</label>
+                            <label> {following} Following</label>
                         </div>
                     ) : (
                         <div>
-                            <ProfileLabel>Posts</ProfileLabel>
-                            <ProfileLabel> Followers</ProfileLabel>
-                            <ProfileLabel> Following</ProfileLabel>
+                            <label>Posts</label>
+                            <label> Followers</label>
+                            <label> Following</label>
                         </div>
                     )}
                 </div>
