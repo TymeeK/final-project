@@ -22,24 +22,33 @@ export default function Profile() {
     const [image, setImage] = useState();
     const hiddenFileInput = useRef(null);
 
-    async function getProfilePicture() {
-        const listRef = ref(storage, `/${user}/profilepicture`);
-        const list = await listAll(listRef);
-        if (list.items.length == 0) {
-            return false;
-        } else {
-            const path = list.items[0]._location.path_;
-            return path;
-        }
-    }
-
-    async function setProfilePicture() {
-        const path = await getProfilePicture();
+    function setProfilePicture(path) {
         if (path) {
             const imageRef = ref(storage, path);
             getDownloadURL(imageRef).then(url => {
                 setImagePath(url);
             });
+        }
+    }
+    async function getDefaultPicture() {
+        const listRef = ref(storage, 'default');
+        const list = await listAll(listRef);
+        const path = list.items[0]._location.path_;
+        const imageRef = ref(storage, path);
+        getDownloadURL(imageRef).then(url => {
+            setImagePath(url);
+        });
+    }
+    async function getProfilePicture() {
+        const listRef = ref(storage, `/${user}/profilepicture`);
+        console.log(`/${user}/profilepicture`);
+        const list = await listAll(listRef);
+
+        if (list.items.length === 0) {
+            getDefaultPicture();
+        } else {
+            const path = list.items[0]._location.path_;
+            setProfilePicture(path);
         }
     }
 
@@ -57,24 +66,7 @@ export default function Profile() {
             });
         }
 
-        async function getDefaultPicture() {
-            const imageExists = await getProfilePicture();
-            if (imageExists) {
-                setProfilePicture();
-                return;
-            }
-            const listRef = ref(storage, 'default');
-            const list = await listAll(listRef);
-            const path = list.items[0]._location.path_;
-            const imageRef = ref(storage, path);
-            getDownloadURL(imageRef).then(url => {
-                console.log(url);
-                setImagePath(url);
-            });
-        }
-
         getUser();
-        // getDefaultPicture();
     }, []);
 
     useEffect(() => {
@@ -93,7 +85,7 @@ export default function Profile() {
             return;
         }
         getFollowers();
-        setProfilePicture();
+        getProfilePicture();
     }, [user]);
 
     useEffect(() => {
