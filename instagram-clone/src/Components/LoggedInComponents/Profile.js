@@ -8,7 +8,13 @@ import {
     ProfileUpload,
 } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { ref, listAll, getDownloadURL, uploadBytes } from 'firebase/storage';
+import {
+    ref,
+    listAll,
+    getDownloadURL,
+    uploadBytes,
+    deleteObject,
+} from 'firebase/storage';
 import { storage, db } from '../../firebase-config';
 import { getDoc, doc } from 'firebase/firestore';
 
@@ -41,7 +47,6 @@ export default function Profile() {
     }
     async function getProfilePicture() {
         const listRef = ref(storage, `/${user}/profilepicture`);
-        console.log(`/${user}/profilepicture`);
         const list = await listAll(listRef);
 
         if (list.items.length === 0) {
@@ -89,18 +94,34 @@ export default function Profile() {
     }, [user]);
 
     useEffect(() => {
-        const uploadNewProfilePicture = () => {
+        const uploadNewProfilePicture = async () => {
             if (!image) {
                 return;
             }
 
-            const profileRef = ref(
-                storage,
-                `/${user}/profilepicture/${image.name}`
-            );
-            uploadBytes(profileRef, image).then(snapshot => {
-                console.log('Uploaded a blob or file!');
-                setProfilePicture();
+            const listRef = ref(storage, `/${user}/profilepicture/`);
+            listAll(listRef).then(picture => {
+                const path = picture.items[0]._location.path_;
+                const deleteRef = ref(storage, path);
+                deleteObject(deleteRef)
+                    .then(() => {
+                        console.log('file deleted successfully');
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                const profileRef = ref(
+                    storage,
+                    `/${user}/profilepicture/${image.name}`
+                );
+                uploadBytes(profileRef, image)
+                    .then(snapshot => {
+                        console.log(snapshot);
+                        setProfilePicture(profileRef);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             });
         };
         uploadNewProfilePicture();
