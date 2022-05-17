@@ -5,6 +5,8 @@ export const ProfileDiv = styled.div`
     width: 100vw;
     justify-content: center;
     /* background-color: red; */
+    padding-bottom: 20px;
+    padding-top: 20px;
     border-bottom: 1px solid gray;
 `;
 

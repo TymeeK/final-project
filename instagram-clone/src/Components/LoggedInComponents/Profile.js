@@ -135,7 +135,6 @@ export default function Profile() {
         <>
             <NavBar>
                 <H1>Fakestagram</H1>
-                <H1>{user}</H1>
             </NavBar>
             <ProfileDiv>
                 <div>
