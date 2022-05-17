@@ -6,6 +6,8 @@ import {
     ProfilePic,
     ProfileName,
     ProfileUpload,
+    ProfilePostContainer,
+    PostContainer,
 } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
@@ -26,6 +28,8 @@ export default function Profile() {
     const [postNumber, setPostNumber] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
+    const [postList, setPostList] = useState([]);
+
     const hiddenFileInput = useRef(null);
 
     function setProfilePicture(path) {
@@ -164,6 +168,9 @@ export default function Profile() {
                     )}
                 </div>
             </ProfileDiv>
+            <ProfilePostContainer>
+                <PostContainer>Test</PostContainer>
+            </ProfilePostContainer>
         </>
     );
 }

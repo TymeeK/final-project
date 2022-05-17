@@ -26,3 +26,17 @@ export const ProfileUpload = styled.button`
         cursor: pointer;
     }
 `;
+
+export const ProfilePostContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+`;
+export const PostContainer = styled.div`
+    /* flex: 1 1 30%; */
+    display: flex;
+    width: 65%;
+    height: 100%;
+`;
