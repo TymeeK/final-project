@@ -35,8 +35,19 @@ export const ProfilePostContainer = styled.div`
     width: 100vw;
 `;
 export const PostContainer = styled.div`
-    /* flex: 1 1 30%; */
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     width: 65%;
     height: 100%;
+    background-color: lightyellow;
+`;
+
+export const Post = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightgray;
+    height: 350px;
+    border: 1px solid black;
 `;
