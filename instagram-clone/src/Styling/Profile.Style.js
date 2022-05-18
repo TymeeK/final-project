@@ -40,14 +40,21 @@ export const PostContainer = styled.div`
     grid-template-rows: repeat(4, 1fr);
     width: 65%;
     height: 100%;
-    background-color: lightyellow;
+    margin-top: 20px;
 `;
 
 export const Post = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: lightgray;
     height: 350px;
-    border: 1px solid black;
+`;
+
+export const PostImage = styled.img`
+    max-width: 200px;
+    max-height: 200px;
+
+    &:hover {
+        cursor: pointer;
+    }
 `;

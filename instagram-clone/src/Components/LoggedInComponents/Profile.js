@@ -9,6 +9,7 @@ import {
     ProfilePostContainer,
     PostContainer,
     Post,
+    PostImage,
 } from '../../Styling/Profile.Style';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {
@@ -170,7 +171,9 @@ export default function Profile() {
             </ProfileDiv>
             <ProfilePostContainer>
                 <PostContainer>
-                    <Post>Test</Post>
+                    <Post>
+                        <PostImage src={imagePath} alt='test' />
+                    </Post>
                     <Post>Test</Post>
                     <Post>Test</Post>
                 </PostContainer>
