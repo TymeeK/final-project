@@ -138,7 +138,8 @@ export default function Profile() {
         if (postList.length === 0) {
             return;
         }
-        console.log(postList);
+        //Return to this
+        const postRef = ref(storage, `/${user}/posts/`);
     }, [postList]);
 
     return (
