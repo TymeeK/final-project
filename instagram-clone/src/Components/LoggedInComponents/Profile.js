@@ -32,6 +32,7 @@ export default function Profile() {
     const [image, setImage] = useState();
 
     const hiddenFileInput = useRef(null);
+    const hiddenPostInput = useRef(null);
 
     function setProfilePicture(path) {
         if (path) {
@@ -136,10 +137,21 @@ export default function Profile() {
         hiddenFileInput.current.click();
     }
 
+    function handlePostUpload() {
+        hiddenPostInput.current.click();
+    }
     return (
         <>
             <NavBar>
                 <H1>Fakestagram</H1>
+                <ProfileUpload onClick={handlePostUpload}>
+                    Upload image
+                </ProfileUpload>
+                <input
+                    type='file'
+                    style={{ display: 'none' }}
+                    ref={hiddenPostInput}
+                />
             </NavBar>
             <ProfileDiv>
                 <div>
@@ -171,9 +183,7 @@ export default function Profile() {
             </ProfileDiv>
             <ProfilePostContainer>
                 <PostContainer>
-                    <Post>
-                        <PostImage src={imagePath} alt='test' />
-                    </Post>
+                    <Post>Test</Post>
                     <Post>Test</Post>
                     <Post>Test</Post>
                 </PostContainer>
