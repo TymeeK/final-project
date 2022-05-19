@@ -30,6 +30,7 @@ export default function Profile() {
     const [postNumber, setPostNumber] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
+    const [postList, setPostList] = useState([]);
 
     const hiddenFileInput = useRef(null);
     const hiddenPostInput = useRef(null);
@@ -133,30 +134,38 @@ export default function Profile() {
         uploadNewProfilePicture();
     }, [image]);
 
-    function handleClick() {
-        hiddenFileInput.current.click();
-    }
+    useEffect(() => {
+        if (postList.length === 0) {
+            return;
+        }
+        console.log(postList);
+    }, [postList]);
 
-    function handlePostUpload() {
-        hiddenPostInput.current.click();
-    }
     return (
         <>
             <NavBar>
                 <H1>Fakestagram</H1>
-                <ProfileUpload onClick={handlePostUpload}>
+                <ProfileUpload onClick={() => hiddenPostInput.current.click()}>
                     Upload image
                 </ProfileUpload>
                 <input
                     type='file'
                     style={{ display: 'none' }}
                     ref={hiddenPostInput}
+                    onChange={event =>
+                        setPostList(postList => [
+                            ...postList,
+                            event.target.files[0],
+                        ])
+                    }
                 />
             </NavBar>
             <ProfileDiv>
                 <div>
                     <ProfilePic src={imagePath} alt='Placeholder' />
-                    <ProfileUpload onClick={handleClick}>
+                    <ProfileUpload
+                        onClick={() => hiddenFileInput.current.click()}
+                    >
                         Upload new profile picture
                     </ProfileUpload>
                     <input
