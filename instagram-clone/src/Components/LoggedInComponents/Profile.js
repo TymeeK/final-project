@@ -30,7 +30,7 @@ export default function Profile() {
     const [postNumber, setPostNumber] = useState();
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
-    const [postList, setPostList] = useState([]);
+    const [postImage, setPostImage] = useState();
 
     const hiddenFileInput = useRef(null);
     const hiddenPostInput = useRef(null);
@@ -101,7 +101,7 @@ export default function Profile() {
     }, [user]);
 
     useEffect(() => {
-        const uploadNewProfilePicture = async () => {
+        const uploadNewProfilePicture = () => {
             if (!image) {
                 return;
             }
@@ -135,12 +135,22 @@ export default function Profile() {
     }, [image]);
 
     useEffect(() => {
-        if (postList.length === 0) {
+        function uploadNewPost() {
+            const postRef = ref(storage, `/${user}/posts/${postImage.name}`);
+            uploadBytes(postRef, postImage)
+                .then(snapshot => {
+                    console.log(snapshot);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        if (!postImage) {
             return;
         }
-        //Return to this
-        const postRef = ref(storage, `/${user}/posts/`);
-    }, [postList]);
+        uploadNewPost();
+    }, [postImage]);
 
     return (
         <>
@@ -153,12 +163,7 @@ export default function Profile() {
                     type='file'
                     style={{ display: 'none' }}
                     ref={hiddenPostInput}
-                    onChange={event =>
-                        setPostList(postList => [
-                            ...postList,
-                            event.target.files[0],
-                        ])
-                    }
+                    onChange={event => setPostImage(event.target.files[0])}
                 />
             </NavBar>
             <ProfileDiv>
