@@ -31,6 +31,7 @@ export default function Profile() {
     const [showFollowers, setShowFollowers] = useState(false);
     const [image, setImage] = useState();
     const [postImage, setPostImage] = useState();
+    const [postList, setPostList] = useState([]);
 
     const hiddenFileInput = useRef(null);
     const hiddenPostInput = useRef(null);
@@ -92,12 +93,24 @@ export default function Profile() {
                 setShowFollowers(true);
             }
         }
+        async function getPosts() {
+            const docRef = doc(db, 'users', user);
+            const docSnap = await getDoc(docRef);
+            const postRef = ref(storage, `/${user}/posts`);
+            const list = await listAll(postRef);
+            if (docSnap.exists()) {
+                for (let i = docSnap.data().posts.length - 1; i >= 0; i--) {
+                    setPostList(posts => [...posts, docSnap.data().posts[i]]);
+                }
+            }
+        }
 
         if (!user) {
             return;
         }
         getFollowers();
         getProfilePicture();
+        getPosts();
     }, [user]);
 
     useEffect(() => {
@@ -205,6 +218,9 @@ export default function Profile() {
             </ProfileDiv>
             <ProfilePostContainer>
                 <PostContainer>
+                    {postList.map((element, id) => {
+                        return <Post key={id}>{element} </Post>;
+                    })}
                     <Post>Test</Post>
                     <Post>Test</Post>
                     <Post>Test</Post>
