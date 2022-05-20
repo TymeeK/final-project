@@ -20,7 +20,7 @@ import {
     deleteObject,
 } from 'firebase/storage';
 import { storage, db } from '../../firebase-config';
-import { getDoc, doc } from 'firebase/firestore';
+import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 export default function Profile() {
     const [user, setUser] = useState();
@@ -146,10 +146,17 @@ export default function Profile() {
                 });
         }
 
+        async function updatePostList() {
+            const docRef = doc(db, 'users', user);
+            await updateDoc(docRef, {
+                posts: arrayUnion(postImage.name),
+            });
+        }
         if (!postImage) {
             return;
         }
         uploadNewPost();
+        updatePostList();
     }, [postImage]);
 
     return (
