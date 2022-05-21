@@ -101,9 +101,11 @@ export default function Profile() {
             for (let i = 0; i < list.items.length; i++) {
                 const path = list.items[i]._location.path_;
                 const imageRef = ref(storage, path);
-                getDownloadURL(imageRef).then(url => {
-                    setPostList(post => [...post, url]);
-                });
+                getDownloadURL(imageRef)
+                    .then(url => {
+                        setPostList(post => [...post, url]);
+                    })
+                    .catch(error => console.error(error));
             }
         }
 
