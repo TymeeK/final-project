@@ -94,14 +94,16 @@ export default function Profile() {
             }
         }
         async function getPosts() {
-            const docRef = doc(db, 'users', user);
-            const docSnap = await getDoc(docRef);
             const postRef = ref(storage, `/${user}/posts`);
             const list = await listAll(postRef);
-            if (docSnap.exists()) {
-                for (let i = docSnap.data().posts.length - 1; i >= 0; i--) {
-                    setPostList(posts => [...posts, docSnap.data().posts[i]]);
-                }
+            console.log(list.items[0]._location.path_);
+
+            for (let i = 0; i < list.items.length; i++) {
+                const path = list.items[i]._location.path_;
+                const imageRef = ref(storage, path);
+                getDownloadURL(imageRef).then(url => {
+                    setPostList(post => [...post, url]);
+                });
             }
         }
 
@@ -219,11 +221,12 @@ export default function Profile() {
             <ProfilePostContainer>
                 <PostContainer>
                     {postList.map((element, id) => {
-                        return <Post key={id}>{element} </Post>;
+                        return (
+                            <Post key={id}>
+                                <PostImage src={element} alt='place' />
+                            </Post>
+                        );
                     })}
-                    <Post>Test</Post>
-                    <Post>Test</Post>
-                    <Post>Test</Post>
                 </PostContainer>
             </ProfilePostContainer>
         </>
