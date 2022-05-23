@@ -96,16 +96,24 @@ export default function Profile() {
         async function getPosts() {
             const postRef = ref(storage, `/${user}/posts`);
             const list = await listAll(postRef);
-            console.log(list.items[0]._location.path_);
 
-            for (let i = 0; i < list.items.length; i++) {
-                const path = list.items[i]._location.path_;
-                const imageRef = ref(storage, path);
-                getDownloadURL(imageRef)
-                    .then(url => {
-                        setPostList(post => [...post, url]);
-                    })
-                    .catch(error => console.error(error));
+            const docRef = doc(db, 'users', user);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                for (let i = docSnap.data().posts.length - 1; i >= 0; i--) {
+                    for (let j = 0; j < list.items.length; j++) {
+                        if (docSnap.data().posts[i] === list.items[j].name) {
+                            console.log(list.items[j]._location.path_);
+                            const path = list.items[j]._location.path_;
+                            const imageRef = ref(storage, path);
+                            getDownloadURL(imageRef)
+                                .then(url => {
+                                    setPostList(post => [...post, url]);
+                                })
+                                .catch(error => console.error(error));
+                        }
+                    }
+                }
             }
         }
 
