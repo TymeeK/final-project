@@ -108,6 +108,7 @@ export default function Profile() {
                             const imageRef = ref(storage, path);
                             getDownloadURL(imageRef)
                                 .then(url => {
+                                    console.log(url);
                                     setPostList(post => [...post, url]);
                                 })
                                 .catch(error => console.error(error));
@@ -122,7 +123,7 @@ export default function Profile() {
         }
         getFollowers();
         getProfilePicture();
-        getPosts();
+        // getPosts();
     }, [user]);
 
     useEffect(() => {
@@ -172,15 +173,21 @@ export default function Profile() {
         }
 
         async function updatePostList() {
+            const postRef = ref(storage, `/${user}/posts/`);
+            const list = await listAll(postRef);
+            for (let i = 0; i < list.items.length; i++) {
+                //RETURN TO THIS
+                console.log(list.items[i]);
+            }
             const docRef = doc(db, 'users', user);
-            await updateDoc(docRef, {
-                posts: arrayUnion(postImage.name),
-            });
+            // await updateDoc(docRef, {
+            //     posts: arrayUnion({ name: postImage.name }),
+            // });
         }
         if (!postImage) {
             return;
         }
-        uploadNewPost();
+        // uploadNewPost();
         updatePostList();
     }, [postImage]);
 
