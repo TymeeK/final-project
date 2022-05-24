@@ -101,19 +101,12 @@ export default function Profile() {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 for (let i = docSnap.data().posts.length - 1; i >= 0; i--) {
-                    for (let j = 0; j < list.items.length; j++) {
-                        if (docSnap.data().posts[i] === list.items[j].name) {
-                            console.log(list.items[j]._location.path_);
-                            const path = list.items[j]._location.path_;
-                            const imageRef = ref(storage, path);
-                            getDownloadURL(imageRef)
-                                .then(url => {
-                                    console.log(url);
-                                    setPostList(post => [...post, url]);
-                                })
-                                .catch(error => console.error(error));
-                        }
-                    }
+                    console.log(docSnap.data().posts[i].name);
+                    console.log(docSnap.data().posts[i].picUrl);
+                    setPostList(posts => [
+                        ...posts,
+                        docSnap.data().posts[i].picUrl,
+                    ]);
                 }
             }
         }
@@ -123,11 +116,11 @@ export default function Profile() {
         }
         getFollowers();
         getProfilePicture();
-        // getPosts();
+        getPosts();
     }, [user]);
 
     useEffect(() => {
-        const uploadNewProfilePicture = () => {
+        function uploadNewProfilePicture() {
             if (!image) {
                 return;
             }
@@ -156,7 +149,7 @@ export default function Profile() {
                         console.error(error);
                     });
             });
-        };
+        }
         uploadNewProfilePicture();
     }, [image]);
 
@@ -164,8 +157,9 @@ export default function Profile() {
         function uploadNewPost() {
             const postRef = ref(storage, `/${user}/posts/${postImage.name}`);
             uploadBytes(postRef, postImage)
-                .then(snapshot => {
+                .then(async snapshot => {
                     console.log(snapshot);
+                    await updatePostList();
                 })
                 .catch(error => {
                     console.error(error);
@@ -176,19 +170,26 @@ export default function Profile() {
             const postRef = ref(storage, `/${user}/posts/`);
             const list = await listAll(postRef);
             for (let i = 0; i < list.items.length; i++) {
-                //RETURN TO THIS
-                console.log(list.items[i]);
+                if (postImage.name === list.items[i].name) {
+                    const path = list.items[i]._location.path_;
+                    const imageRef = ref(storage, path);
+
+                    getDownloadURL(imageRef).then(async url => {
+                        const docRef = doc(db, 'users', user);
+                        await updateDoc(docRef, {
+                            posts: arrayUnion({
+                                name: postImage.name,
+                                picUrl: url,
+                            }),
+                        });
+                    });
+                }
             }
-            const docRef = doc(db, 'users', user);
-            // await updateDoc(docRef, {
-            //     posts: arrayUnion({ name: postImage.name }),
-            // });
         }
         if (!postImage) {
             return;
         }
-        // uploadNewPost();
-        updatePostList();
+        uploadNewPost();
     }, [postImage]);
 
     return (
