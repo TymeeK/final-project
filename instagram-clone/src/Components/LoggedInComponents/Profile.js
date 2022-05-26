@@ -21,6 +21,7 @@ import {
 } from 'firebase/storage';
 import { storage, db } from '../../firebase-config';
 import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
     const [user, setUser] = useState();
@@ -32,6 +33,7 @@ export default function Profile() {
     const [image, setImage] = useState();
     const [postImage, setPostImage] = useState();
     const [postList, setPostList] = useState([]);
+    const navigate = useNavigate();
 
     const hiddenFileInput = useRef(null);
     const hiddenPostInput = useRef(null);
@@ -195,7 +197,12 @@ export default function Profile() {
     return (
         <>
             <NavBar>
-                <H1>Fakestagram</H1>
+                <H1
+                    onClick={() => navigate('/feed')}
+                    style={{ cursor: 'pointer' }}
+                >
+                    Fakestagram
+                </H1>
                 <ProfileUpload onClick={() => hiddenPostInput.current.click()}>
                     Upload image
                 </ProfileUpload>

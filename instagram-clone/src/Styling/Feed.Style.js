@@ -7,3 +7,9 @@ export const NavBar = styled.nav`
     padding-bottom: 10px;
     background-color: #fff;
 `;
+
+export const ImageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;

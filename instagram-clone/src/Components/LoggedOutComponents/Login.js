@@ -59,13 +59,10 @@ export default function Login() {
                 navigate('/profile');
             } else {
                 setWrongInput(true);
+                console.log('SDFSDF');
             }
         });
     }
-
-    useEffect(() => {
-        signOutUser();
-    }, []);
     return (
         <div>
             <MainContainer>
