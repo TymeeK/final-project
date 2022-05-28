@@ -6,6 +6,7 @@ import {
     ImageDiv,
     FeedImage,
     PostContainer,
+    UsernameDiv,
 } from '../../Styling/Feed.Style';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -59,11 +60,11 @@ export default function Feed() {
                 {feedImages.map((element, id) => {
                     return (
                         <PostContainer>
-                            <div>
+                            <UsernameDiv>
                                 <label style={{ display: 'block' }}>
-                                    {user} posted this
+                                    {user}
                                 </label>
-                            </div>
+                            </UsernameDiv>
                             <ImageDiv key={id}>
                                 <FeedImage src={element} alt='feedimage' />{' '}
                             </ImageDiv>
